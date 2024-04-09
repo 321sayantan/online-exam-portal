@@ -1,0 +1,54 @@
+.container{
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 50vw;
+    height: 50vh;
+    margin: auto;
+    margin-top: 7%;
+    padding: 20px;
+}
+
+.questions{
+    border: 2px solid black;
+    margin: auto;
+    height: 33%;
+    /* font-size: 30px;
+    padding-top: 10px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.questions > h2{
+    margin-top: 0px;
+    padding: 10px;
+}
+
+.options{
+    margin-top: 5%;
+    /* border: 2px solid black; */
+}
+
+.options > input{
+    margin: 15px 10px;
+}
+
+.button{
+    /* border: 2px solid black; */
+    margin: 10px 0px;
+    font-size: 30px;
+}
+
+.btn{
+    margin-top: 4%;
+    float: right;
+}
+
+.btn > button{
+    padding: 10px 45px;
+    font-size: larger;
+    background-color: rgb(7, 174, 7);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}

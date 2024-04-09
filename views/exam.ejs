@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam</title>
+    <link rel="stylesheet" href="/CSS/exam.css">
+</head>
+<body>
+    <div class="container">
+        <div class="questions">
+            <h2> <%= paper.question %></h2>
+        </div>
+
+        <form action="/next" method="post">
+        <div class="options">
+
+                <div class="button">
+                    <input type="radio" id="a" name="ans" value="<%= paper.opt1 %>">
+                    <label for="a"><%= paper.opt1 %></label><br>
+                </div>
+
+                <div class="button">
+                    <input type="radio" id="b" name="ans" value="<%= paper.opt2 %>">
+                    <label for="b"><%= paper.opt2 %></label><br>
+                </div>
+
+                <div class="button">
+                    <input type="radio" id="c" name="ans" value="<%= paper.opt3 %>">
+                    <label for="c"><%= paper.opt3 %></label><br>
+                </div>
+
+                <div class="button">
+                    <input type="radio" id="d" name="ans" value="<%= paper.opt4 %>">
+                    <label for="d"><%= paper.opt4 %></label><br>
+                </div>
+        </div>
+
+        <div class="btn">
+            <input type="submit" value="Next">
+        </div>
+    </form>
+    </div>
+</body>
+</html>
