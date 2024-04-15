@@ -4,35 +4,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Test</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+
     <style>
-        body {
-            background: url('./img/moroccan-flower-dark.png');
+        /* Start Global Rules */
+        * {
+            box-sizing: border-box;
+            margin: 0px;
         }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            /* overflow: hidden; */
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Small */
+        @media (min-width: 768px) {
+            .container {
+                width: 750px;
+            }
+        }
+
+        /* Medium */
+        @media (min-width: 992px) {
+            .container {
+                width: 970px;
+            }
+        }
+
+        /* Large */
+        @media (min-width: 1200px) {
+            .container {
+                width: 80%;
+            }
+        }
+
+        /* End Global Rules */
+
+        /* Start Landing Page */
+        .landing-page header {
+            min-height: 80px;
+            display: flex;
+        }
+
+        @media (max-width: 767px) {
+            .landing-page header {
+                min-height: auto;
+                display: initial;
+            }
+        }
+
+        .landing-page header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 767px) {
+            .landing-page header .container {
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+
+        .landing-page header .logo {
+            color: #5d5d5d;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 32px;
+        }
+
+        @media (max-width: 767px) {
+            .landing-page header .logo {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .landing-page header .links {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 767px) {
+            .landing-page header .links {
+                text-align: center;
+                gap: 10px;
+            }
+        }
+
+        .landing-page header .links li {
+            margin-left: 30px;
+            color: #5d5d5d;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        @media (max-width: 767px) {
+            .landing-page header .links li {
+                margin-left: auto;
+            }
+        }
+
+        .landing-page header .links li:last-child {
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: #FFF;
+            background-color: #6c63ff;
+        }
+
+        .landing-page header .links li:not(:last-child):hover {
+            color: #6c63ff;
+        }
+
+        .landing-page .content .container {
+            width: 75%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 140px;
+            min-height: calc(100vh - 80px);
+        }
+
+        @media (max-width: 767px) {
+            .landing-page .content .container {
+                gap: 0;
+                min-height: calc(100vh - 101px);
+                justify-content: center;
+                flex-direction: column-reverse;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .landing-page .content .info {
+                text-align: center;
+                margin-bottom: 15px
+            }
+        }
+
+        .landing-page .content .info h1 {
+            color: #5d5d5d;
+            font-size: 44px;
+            animation-delay: 0.3s;
+        }
+
+        .landing-page .content .info p {
+            margin: 0;
+            line-height: 1.6;
+            font-size: 20px;
+            color: #5d5d5d;
+            animation-delay: 0.5s;
+        }
+
+        .landing-page .content .info button {
+            border: 0;
+            border-radius: 20px;
+            padding: 12px 30px;
+            margin-top: 30px;
+            cursor: pointer;
+            color: #FFF;
+            background-color: #6c63ff;
+            animation-delay: 1s;
+        }
+
+        .info {
+            width: 100%;
+        }
+
+        .landing-page .content .image img {
+            max-width: 100%;
+        }
+
+        .image img {
+            /* width: 80%; */
+            margin-left: 85px;
+            animation-delay: 1.2s;
+        }
+
+        .anim{
+            opacity: 0;
+            transform: translateY(50px);
+            animation: moveup 1s linear forwards;
+        }
+
+        @keyframes moveup {
+            100%{
+                opacity: 1;
+                transform: translateY(0px);
+            }
+
+        }
+
+        /* End Landing Page */
     </style>
+
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="./home.html">OnlineExam</a>
+
+    <!-- Start Landing Page -->
+    <div class="landing-page">
+        <header>
+            <div class="container">
+                <a href="/" class="logo">Exam<b>Ground</b></a>
+                <ul class="links">
+                    <li>Home</li>
+                    <li>About Us</li>
+                    <li>Work</li>
+                    <li>Info</li>
+                    <!-- <li><a href="/signup">Get Started</a></li> -->
+                    <a href="/login">
+                        <li>Login</li>
+                    </a>
+                </ul>
             </div>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
+        </header>
+        <div class="content">
+            <div class="container">
+                <div class="info">
+                    <h1 class="anim">Looking For Inspiration</h1>
+                    <p class="anim">“I don’t measure a man’s success by how high he climbs, but by how high he bounces when he hits
+                        the bottom.” <br>- <b>George S. Patton</b>
+                    </p>
+                    <a href="/signup"><button class="anim">Get Started</button></a>
+                </div>
+                <div class="image">
+                    <!-- <img src="https://i.postimg.cc/65QxYYzh/001234.png"> -->
+                    <img class="anim" src="./img/—Pngtree—exam review_4025301.png">
+                </div>
+            </div>
         </div>
-    </nav>
-
-    <div>
-        <h1></h1>
     </div>
-
+    <!-- End Landing Page -->
 
 </body>
 
