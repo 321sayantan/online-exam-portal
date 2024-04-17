@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>result</title>
+    <link rel="stylesheet" href="css/result.css">
 </head>
+
 <body>
-    <H1><%= marks %>/5 </H1>
+    <h1 class="heading">Result Summary</h1>
+    <div class="body">
+        <div class="container">
+            <div id="score">
+                <h1><%= score %>/10</h1>
+            </div>
+            <div class="detail">
+                <ul>
+                    <li>Questions Attempted: <%= Ques_attempt %></li>
+                    <li>Correct Answers: <%= score %></li>
+                    <li>Wrong Answers: <%= 10-score %></li>
+                    <li>Time taken: <%= time %></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>

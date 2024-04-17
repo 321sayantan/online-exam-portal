@@ -1,45 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam</title>
-    <link rel="stylesheet" href="/CSS/exam.css">
+    <title>exam</title>
+    <link rel="stylesheet" href="./css/exam.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="questions">
-            <h2> <%= paper.question %></h2>
-        </div>
-
+    <main>
         <form action="/next" method="post">
-        <div class="options">
+            <div class="game-quiz-container">
 
-                <div class="button">
-                    <input type="radio" id="a" name="ans" value="<%= paper.opt1 %>">
-                    <label for="a"><%= paper.opt1 %></label><br>
+                <div class="game-details-container">
+                    <h1>Score : <span id="player-score">
+                            <%= score %>
+                        </span> / 10</h1>
+                    <h1> Question : <span id="question-number">
+                            <%= question_no %>
+                        </span> / 10</h1>
                 </div>
 
-                <div class="button">
-                    <input type="radio" id="b" name="ans" value="<%= paper.opt2 %>">
-                    <label for="b"><%= paper.opt2 %></label><br>
+                <div class="game-question-container">
+                    <h1 id="display-question">
+                        <%= paper.question %>
+                    </h1>
                 </div>
 
-                <div class="button">
-                    <input type="radio" id="c" name="ans" value="<%= paper.opt3 %>">
-                    <label for="c"><%= paper.opt3 %></label><br>
+                <div class="game-options-container">
+
+                    <span>
+                        <input type="radio" id="option-one" name="option" class="radio" value="<%= paper.opt1 %>" />
+                        <label for="option-one" class="option" id="option-one-label">
+                            <%= paper.opt1 %>
+                        </label>
+                    </span>
+
+
+                    <span>
+                        <input type="radio" id="option-two" name="option" class="radio" value="<%= paper.opt2 %>" />
+                        <label for="option-two" class="option" id="option-two-label">
+                            <%= paper.opt2 %>
+                        </label>
+                    </span>
+
+
+                    <span>
+                        <input type="radio" id="option-three" name="option" class="radio" value="<%= paper.opt3 %>" />
+                        <label for="option-three" class="option" id="option-three-label">
+                            <%= paper.opt3 %>
+                        </label>
+                    </span>
+
+
+                    <span>
+                        <input type="radio" id="option-four" name="option" class="radio" value="<%= paper.opt4 %>" />
+                        <label for="option-four" class="option" id="option-four-label">
+                            <%= paper.opt4 %>
+                        </label>
+                    </span>
+
+
                 </div>
 
-                <div class="button">
-                    <input type="radio" id="d" name="ans" value="<%= paper.opt4 %>">
-                    <label for="d"><%= paper.opt4 %></label><br>
+                <div class="next-button-container">
+                    <input type="submit" value="Next Question">
                 </div>
-        </div>
 
-        <div class="btn">
-            <input type="submit" value="Next">
-        </div>
-    </form>
-    </div>
+            </div>
+        </form>
+    </main>
+
 </body>
+
 </html>
