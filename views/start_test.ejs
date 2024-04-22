@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Exam</title>
+    <style>
+        body{
+            height: 96vh;
+            background: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZXhhbSUyMGhhbGx8ZW58MHx8MHx8fDA%3D') center center/cover no-repeat;
+        }
+
+        h1{
+            text-align: center;
+            color: #1805fa;
+            font-size: xxx-large;
+        }
+
+        .btn{
+            margin: auto;
+            width: fit-content;
+            margin-top: 8%;
+        }
+        .btn > a > button{
+            padding: 15px 70px;
+            font-size: large;
+            cursor: pointer;
+            border-radius: 10px;
+            background-color: #94ff9c;
+        }
+
+        #instruction{
+            width: 50%;
+            margin: auto;
+            margin-top: 4%;
+            backdrop-filter: blur(15px);
+            padding: 10px;
+        }
+
+        #instruction li{
+            margin: 10px 0px;
+            font-size: larger;
+            color: white;
+        }
+
+
+        .container-fluid {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .navbar-nav {
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* .logo {
+      color: #5d5d5d;
+      font-style: italic;
+      text-transform: uppercase;
+      font-size: 32px;
+      text-decoration: none;
+    }
+
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    } */
+
+    * {
+      box-sizing: border-box;
+      margin: 0px;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      /* overflow: hidden; */
+      scroll-behavior: smooth;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Small */
+    @media (min-width: 768px) {
+      .container {
+        width: 750px;
+      }
+    }
+
+    /* Medium */
+    @media (min-width: 992px) {
+      .container {
+        width: 970px;
+      }
+    }
+
+    /* Large */
+    @media (min-width: 1200px) {
+      .container {
+        width: 90%;
+      }
+    }
+
+    /* End Global Rules */
+
+    /* Start Landing Page */
+    .landing-page header {
+      min-height: 80px;
+      display: flex;
+      background-color: #f3f3f38f;
+    }
+
+    @media (max-width: 767px) {
+      .landing-page header {
+        min-height: auto;
+        display: initial;
+      }
+    }
+
+    .landing-page header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 767px) {
+      .landing-page header .container {
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    .landing-page header .logo {
+      color: #5d5d5d;
+      font-style: italic;
+      text-transform: uppercase;
+      font-size: 32px;
+    }
+
+    @media (max-width: 767px) {
+      .landing-page header .logo {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .landing-page header .links {
+      display: flex;
+      align-items: center;
+    }
+
+    @media (max-width: 767px) {
+      .landing-page header .links {
+        text-align: center;
+        gap: 10px;
+      }
+    }
+
+    .landing-page header .links li {
+      margin-left: 30px;
+      color: #5d5d5d;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    @media (max-width: 767px) {
+      .landing-page header .links li {
+        margin-left: auto;
+      }
+    }
+
+    .landing-page header .links li:last-child {
+      border-radius: 20px;
+      padding: 10px 20px;
+      color: #FFF;
+      background-color: #6c63ff;
+    }
+
+    .landing-page header .links li:not(:last-child):hover {
+      color: #6c63ff;
+    }
+
+    .landing-page .content .container {
+      width: 75%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 140px;
+      min-height: calc(100vh - 80px);
+    }
+
+    @media (max-width: 767px) {
+      .landing-page .content .container {
+        gap: 0;
+        min-height: calc(100vh - 101px);
+        justify-content: center;
+        flex-direction: column-reverse;
+      }
+    }
+
+    .margin {
+      margin-top: -63px;
+    }
+
+    .h-custom {
+      height: calc(100% - 62px);
+    }
+
+    h3{
+        margin-left: 5px;
+    }
+
+    #profile{
+    width: 37px;
+    height: 36px;
+    background-color: red;
+    margin-left: 40px;
+    background: url('/img/profile.svg');
+    }
+    </style>
+</head>
+<body>
+
+    <div class="landing-page">
+        <header>
+          <div class="container">
+            <a href="/" class="logo">Exam<b>Ground</b></a>
+            <ul class="links">
+              <li>Home</li>
+              <li>About Us</li>
+              <li>Work</li>
+              <li>Info</li>
+              <!-- <li><a href="/signup">Get Started</a></li> -->
+              <div id="profile"></div>
+              <h3>Hi, <%= name %></h3>
+            </ul>
+          </div>
+        </header>
+      </div>
+
+
+
+    <h1>Instructions for online exam</h1>
+    <div id="instruction">
+        <ol>
+            <li>You must use a functioning webcam and microphone</li>
+            <li>No cell phones or other secondary devices in the room or test area</li>
+            <li>Your desk/table must be clear or any materials except your test-taking device</li>
+            <li>No one else can be in the room with you</li>
+            <li>No talking </li>
+            <li>The testing room must be well-lit and you must be clearly visible</li>
+            <li>No dual screens/monitors</li>
+            <li>Do not leave the camera </li>
+            <li>No use of additional applications or internet</li>
+        </ol>
+    </div>
+
+    <div class="btn">
+        <a href="/exam"> <button>Start Exam</button> </a>    
+    </div>
+</body>
+</html>

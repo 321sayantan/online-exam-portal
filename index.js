@@ -3,14 +3,19 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyparser from "body-parser";
 import { User } from "./config.js";
+import bcrypt from "bcrypt";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
 var noofquestion = 1;
+var question_attempt = 0;
 var marks = 0;
+var wrong = 0;
 var temp = "";
+var loggeduser = "";
+const saltrounds = 10;
 
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -28,8 +33,19 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + "/public/login.html");
 });
 
+app.get("/start_test", (req, res) => {
+
+    res.render("start_test.ejs", {
+        name: loggeduser.name.split(" ")[0].toUpperCase()
+    });
+});
+
 app.get('/exam', (req, res) => {
-    temp = question[Math.floor(Math.random() * question.length)];
+    noofquestion = 1;
+    question_attempt = 0;
+    marks = 0;
+    wrong = 0;
+    temp = question[noofquestion - 1];
     res.render("exam.ejs", {
         paper: temp,
         score: marks,
@@ -44,26 +60,44 @@ app.post("/signup", async (req, res) => {
         password: req.body.password
     };
 
-    const existinguser = await User.findOne({ name: data.name, email: data.email });
-    console.log(existinguser);
-    if (!existinguser) {
-        // res.send(`<script>alert("Email already taken, use another email"); window.location.href="/signup</script>`);
+    const existinguser = await User.findOne({ $or: [{ name: data.name }, { email: data.email }] });
+    if (existinguser) {
         res.send(`<script>alert("Username/email already taken"); window.location.href = "/signup"; </script>`);
-        // res.sendFile(__dirname + "/public/signup.html");
     }
     else {
-        const userdata = await User.insertMany(data);
-        console.log(userdata);
-        res.sendFile(__dirname + "/public/login.html");
+        //Password hashing
+        bcrypt.hash(data.password, saltrounds, async (err, hash) => {
+            if (err) {
+                console.log(err);
+            } else {
+                loggeduser = data;
+                data.password = hash;
+                const userdata = await User.insertMany(data);
+                res.redirect('/start_test');
+            }
+        })
     }
 });
 
 app.post('/login', async (req, res) => {
+    const username = req.body.name;
+    const login_Password = req.body.password;
+
     try {
-        const check = await User.findOne({ name: req.body.name, password: req.body.password });
-        if (check) {
-            // console.log(check);
-            res.sendFile(__dirname + "/public/start_test.html")
+        loggeduser = await User.findOne({ name: username });
+        if (loggeduser) {
+            bcrypt.compare(login_Password, loggeduser.password, (err, result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (result) {
+                        res.redirect('/start_test');
+                    }
+                    else {
+                        res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
+                    }
+                }
+            })
         }
         else {
             res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
@@ -72,16 +106,21 @@ app.post('/login', async (req, res) => {
     catch (err) {
         console.log(err);
     }
-    // res.sendFile(__dirname + "/public/start_test.html")
 });
 
 app.post('/next', (req, res) => {
-    if (req.body.option == temp.ans) {
+    // console.log(req.body.option);
+    if (req.body.option != undefined) {
+        question_attempt += 1;
+    }
+    if (req.body.option === temp.ans) {
         marks++;
+    } else {
+        wrong += 1;
     }
     // res.redirect('/exam');
     if (noofquestion < 10) {
-        temp = question[Math.floor(Math.random() * question.length)];
+        temp = question[noofquestion];
         // console.log(temp);
         noofquestion++;
         res.render("exam.ejs", {
@@ -91,15 +130,29 @@ app.post('/next', (req, res) => {
         });
     }
     else {
-        res.render("result.ejs", {
+        var remark;
+        if(marks > 8){ remark = "Excellent";}
+        else if(marks > 6){ remark = "Good";}
+        else if(marks > 4){ remark = "Fair";}
+        else if(marks > 2){ remark = "Poor";}
+        else if(marks >= 0){ remark = "Very Poor";}
+        res.render("result1.ejs", {
             score: marks,
-            Ques_attempt: noofquestion,
-            time: "20:20"
+            Ques_attempt: question_attempt,
+            wrong_ans: wrong,
+            time: "20:20",
+            remark: remark
         });
-        noofquestion = 0;
+        noofquestion = 1;
+        question_attempt = 0;
         marks = 0;
+        wrong = 0;
     }
 })
+
+// app.get("/result1", (req, res)=>{
+//     res.render("result1.ejs");
+// })
 
 app.listen(port, () => {
     console.log(`The server is running on port ${port}`);
@@ -130,70 +183,80 @@ const question = [
         "opt3": "Hypertext Preprogramming",
         "opt4": "Hometext Preprocessor"
     },
-    {    "question": "What does SQL stand for?",
+    {
+        "question": "What does SQL stand for?",
         "ans": "Structured Query Language",
         "opt1": "Stylish Question Language",
         "opt2": "Stylesheet Query Language",
         "opt3": "Statement Question Language",
         "opt4": "Structured Query Language"
     },
-    {    "question": "What does XML stand for?",
-        "ans": "eXtensible Markup Language",
-        "opt1": "eXtensible Markup Language",
+    {
+        "question": "What does XML stand for?",
+        "ans": "Extensible Markup Language",
+        "opt1": "Extensible Markup Language",
         "opt2": "eXecutable Multiple Language",
         "opt3": "eXTra Multi-Program Language",
         "opt4": "dddeXamine Multiple Language"
     },
-    {   "question": "How many Bits make one Byte?",
+    {
+        "question": "How many Bits make one Byte?",
         "ans": "8 bits",
         "opt1": "16 bits",
         "opt2": "32 bits",
         "opt3": "64 bits",
         "opt4": "8 bits"
     },
-    {    "question": "Google is a Browser or a Search Engine?",
+    {
+        "question": "Google is a Browser or a Search Engine?",
         "ans": "Search Engine",
         "opt1": "Browser",
         "opt2": "Search Engine",
         "opt3": "Both Browser and Search Engine",
         "opt4": "Neither Browser nor Search Engine"
     },
-    {    "question": "What is the full form of VIRUS?",
-        "ans": "SVital Information Rest Under Siege",
+    {
+        "question": "What is the full form of VIRUS?",
+        "ans": "Vital Information Rest Under Siege",
         "opt1": "Vital Information Rest Under System",
         "opt2": "Vital Information Rest Under Siege",
         "opt3": "Virtual Information Resources Under Siege",
         "opt4": "Vital Information Resources Under Siege"
     },
-    {    "question": "The process of transferring files from the Internet to your computer is called?",
+    {
+        "question": "The process of transferring files from the Internet to your computer is called?",
         "ans": "Downloading",
         "opt1": "Uploading",
         "opt2": "Storing",
         "opt3": "Downloading",
         "opt4": "All of the above"
     },
-    {    "question": "1 Kilobyte is equal to how many bytes?",
+    {
+        "question": "1 Kilobyte is equal to how many bytes?",
         "ans": "1024 bytes",
         "opt1": "1024 bytes",
         "opt2": "512 bytes",
         "opt3": "256 bytes",
         "opt4": "128 bytes"
     },
-    {    "question": " An address given to a computer connected to a network is called?",
+    {
+        "question": " An address given to a computer connected to a network is called?",
         "ans": "IP address",
         "opt1": "Local address",
         "opt2": "Localhost",
         "opt3": "Network address",
         "opt4": "IP address"
     },
-    {    "question": "A program that translates High-Level Language to a Machine Level Language is called?",
+    {
+        "question": "A program that translates High-Level Language to a Machine Level Language is called?",
         "ans": "Compiler",
         "opt1": "Compiler",
         "opt2": "Interpreter",
         "opt3": "Assembler",
         "opt4": "Operating system"
     },
-    {   "question": "All mathematical and logical functions in the computer are done by?",
+    {
+        "question": "All mathematical and logical functions in the computer are done by?",
         "ans": "Arithmetic and Logical Unit",
         "opt1": "Central Processing Unit",
         "opt2": "Arithmetic and Logical Unit",
