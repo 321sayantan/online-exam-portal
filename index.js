@@ -39,7 +39,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    // console.log(__dirname);
     res.sendFile(__dirname + "/public/home.html");
 });
 
@@ -52,7 +51,6 @@ app.get('/login', (req, res) => {
 });
 
 app.get("/start_test", (req, res) => {
-    console.log(req.user);
     if (req.isAuthenticated()) {
         res.render("start_test.ejs", {
             name: req.user.name || loggeduser.name,
@@ -127,7 +125,6 @@ app.post('/login', passport.authenticate("local", {
 }));
 
 app.post('/next', (req, res) => {
-    // console.log(req.body.option);
     if (req.body.option != undefined) {
         question_attempt += 1;
     }
@@ -136,10 +133,8 @@ app.post('/next', (req, res) => {
     } else {
         wrong += 1;
     }
-    // res.redirect('/exam');
     if (noofquestion < 10) {
         temp = question[noofquestion];
-        // console.log(temp);
         noofquestion++;
         res.render("exam.ejs", {
             paper: temp,
@@ -166,18 +161,12 @@ app.post('/next', (req, res) => {
         marks = 0;
         wrong = 0;
     }
-})
-
-// app.get("/result1", (req, res)=>{
-//     res.render("result1.ejs");
-// })
+});
 
 passport.use("local", new Strategy(async function verify(username, password, cb) {
-    // console.log(username);
 
     try {
         loggeduser = await User.findOne({ name: username });
-        // console.log(loggeduser);
         if (loggeduser) {
             bcrypt.compare(password, loggeduser.password, (err, result) => {
                 if (err) {
@@ -209,15 +198,12 @@ passport.use("google", new googleStrategy({
     callbackURL: "https://online-exam-portal-xfvz.onrender.com/auth/google/start_test",
     userProfileURL: "http://www.googleapis.com/oauth2/v3/userinfo",
 }, async (accessToken, refreshToken, profile, cb) =>{
-    // console.log(profile);
     try{
         const result = await User.findOne({ email: profile.email });
         if(result){
-            console.log("first" + result);
             cb(null, result);
         }else{
             const newuser = await User.insertMany({name: profile.given_name, email: profile.email});
-            console.log("second" + newuser);
             cb(null, newuser[0]);
         }
     }catch(err){
