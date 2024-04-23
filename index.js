@@ -206,7 +206,7 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
 passport.use("google", new googleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/start_test",
+    callbackURL: "https://online-exam-portal-xfvz.onrender.com/auth/google/start_test",
     userProfileURL: "http://www.googleapis.com/oauth2/v3/userinfo",
 }, async (accessToken, refreshToken, profile, cb) =>{
     // console.log(profile);
