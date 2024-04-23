@@ -4,6 +4,11 @@ import { fileURLToPath } from "url";
 import bodyparser from "body-parser";
 import { User } from "./config.js";
 import bcrypt from "bcrypt";
+import session from "express-session";
+import passport from "passport";
+import { Strategy } from "passport-local";
+import env from "dotenv";
+import googleStrategy from "passport-google-oauth2";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +24,19 @@ const saltrounds = 10;
 
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: true }));
+env.config();
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 5
+    }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
     // console.log(__dirname);
@@ -34,10 +52,15 @@ app.get('/login', (req, res) => {
 });
 
 app.get("/start_test", (req, res) => {
-
-    res.render("start_test.ejs", {
-        name: loggeduser.name.split(" ")[0].toUpperCase()
-    });
+    console.log(req.user);
+    if (req.isAuthenticated()) {
+        res.render("start_test.ejs", {
+            name: req.user.name || loggeduser.name,
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
 app.get('/exam', (req, res) => {
@@ -52,6 +75,22 @@ app.get('/exam', (req, res) => {
         question_no: noofquestion
     });
 });
+
+app.get('/logout', (req, res)=>{
+req.logout((err)=>{
+    if(err) console.log(err);
+    res.redirect('/');
+})
+});
+
+app.get("/auth/google", passport.authenticate("google", {
+    scope: ["profile", "email"]
+}));
+
+app.get("/auth/google/start_test", passport.authenticate("google", {
+    successRedirect: "/start_test",
+    failureRedirect: "/login",
+}));
 
 app.post("/signup", async (req, res) => {
     const data = {
@@ -73,40 +112,19 @@ app.post("/signup", async (req, res) => {
                 loggeduser = data;
                 data.password = hash;
                 const userdata = await User.insertMany(data);
-                res.redirect('/start_test');
+                req.login(userdata, (err)=>{
+                    if(err) console.log(err);
+                    res.redirect('/start_test');
+                })
             }
         })
     }
 });
 
-app.post('/login', async (req, res) => {
-    const username = req.body.name;
-    const login_Password = req.body.password;
-
-    try {
-        loggeduser = await User.findOne({ name: username });
-        if (loggeduser) {
-            bcrypt.compare(login_Password, loggeduser.password, (err, result) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (result) {
-                        res.redirect('/start_test');
-                    }
-                    else {
-                        res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
-                    }
-                }
-            })
-        }
-        else {
-            res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
+app.post('/login', passport.authenticate("local", {
+    successRedirect: "/start_test",
+    failureRedirect: "/login"
+}));
 
 app.post('/next', (req, res) => {
     // console.log(req.body.option);
@@ -131,16 +149,16 @@ app.post('/next', (req, res) => {
     }
     else {
         var remark;
-        if(marks > 8){ remark = "Excellent";}
-        else if(marks > 6){ remark = "Good";}
-        else if(marks > 4){ remark = "Fair";}
-        else if(marks > 2){ remark = "Poor";}
-        else if(marks >= 0){ remark = "Very Poor";}
-        res.render("result1.ejs", {
+        if (marks > 8) { remark = "Excellent"; }
+        else if (marks > 6) { remark = "Good"; }
+        else if (marks > 4) { remark = "Fair"; }
+        else if (marks > 2) { remark = "Poor"; }
+        else if (marks >= 0) { remark = "Very Poor"; }
+        res.render("result.ejs", {
             score: marks,
             Ques_attempt: question_attempt,
             wrong_ans: wrong,
-            time: "20:20",
+            time: "00:20",
             remark: remark
         });
         noofquestion = 1;
@@ -153,6 +171,66 @@ app.post('/next', (req, res) => {
 // app.get("/result1", (req, res)=>{
 //     res.render("result1.ejs");
 // })
+
+passport.use("local", new Strategy(async function verify(username, password, cb) {
+    // console.log(username);
+
+    try {
+        loggeduser = await User.findOne({ name: username });
+        // console.log(loggeduser);
+        if (loggeduser) {
+            bcrypt.compare(password, loggeduser.password, (err, result) => {
+                if (err) {
+                    return cb(err);
+                } else {
+                    if (result) {
+                        return cb(err, loggeduser);
+                    }
+                    else {
+                        // res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
+                        return cb(null, false);
+                    }
+                }
+            });
+        }
+        else {
+            // res.send(`<script>alert("Invalid Username or Password"); window.location.href = "/login"; </script>`);
+            return cb("user not found");
+        }
+    }
+    catch (err) {
+        return cb(err);
+    }
+}));
+
+passport.use("google", new googleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/start_test",
+    userProfileURL: "http://www.googleapis.com/oauth2/v3/userinfo",
+}, async (accessToken, refreshToken, profile, cb) =>{
+    // console.log(profile);
+    try{
+        const result = await User.findOne({ email: profile.email });
+        if(result){
+            console.log("first" + result);
+            cb(null, result);
+        }else{
+            const newuser = await User.insertMany({name: profile.given_name, email: profile.email});
+            console.log("second" + newuser);
+            cb(null, newuser[0]);
+        }
+    }catch(err){
+        cb(err);
+    }
+}))
+
+passport.serializeUser((user, cb)=>{
+    cb(null, user)
+});
+passport.deserializeUser((user, cb)=>{
+    cb(null, user)
+});
 
 app.listen(port, () => {
     console.log(`The server is running on port ${port}`);

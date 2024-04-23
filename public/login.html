@@ -188,12 +188,41 @@
       }
     }
 
-    .margin {
-      margin-top: -63px;
+    .vh-100 {
+      height: 90vh !important;
     }
 
     .h-custom {
       height: calc(100% - 62px);
+    }
+
+    .google {
+      width: 90%;
+    }
+
+    .card {
+      border: none;
+    }
+
+    .card-body {
+      padding: 0px;
+    }
+
+    .card-body a {
+      width: 100%;
+      padding: 15px 10px;
+      border: 2px solid rgb(152, 152, 152);
+      border-radius: 30px;
+    }
+
+    .btn:hover {
+      background: rgb(207, 207, 207);
+    }
+
+    #googlelogo {
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
     }
   </style>
 </head>
@@ -229,20 +258,40 @@
               class="img-fluid" alt="Sample image">
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+
+
+
+            <div class="col-sm-4 google">
+              <div class="card">
+                <div class="card-body">
+                  <a class="btn btn-block" href="/auth/google" role="button">
+                    <img id="googlelogo" src="./img/google.svg"></img>
+                    Sign In with Google
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider d-flex align-items-center my-4">
+              <p class="text-center fw-bold mx-3 mb-0">Or</p>
+            </div>
+
+
+
             <form action="/login" method="post">
 
               <!-- Email input -->
               <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example3">Enter your username</label>
-                <input type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Username" name="name"/>
+                <input type="text" id="form3Example3" class="form-control form-control-lg" placeholder="Username"
+                  name="username" />
               </div>
 
               <!-- Password input -->
               <div class="form-outline mb-3">
                 <label class="form-label" for="form3Example4">Password:</label>
                 <input type="password" id="form3Example4" class="form-control form-control-lg"
-                  placeholder="Enter password" name="password"/>
+                  placeholder="Enter password" name="password" />
               </div>
 
               <div class="d-flex justify-content-between align-items-center">
@@ -268,7 +317,7 @@
         </div>
       </div>
       <div
-        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-3 px-4 px-xl-5 bg-primary margin">
+        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-3 px-4 px-xl-5 bg-primary">
         <!-- Copyright -->
         <div class="text-white mb-3 mb-md-0">
           Copyright © 2020. All rights reserved.

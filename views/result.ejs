@@ -4,28 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>result</title>
-    <link rel="stylesheet" href="css/result.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+    <title>Frontend Mentor | Results summary component</title>
+    <link rel="stylesheet" href="./CSS/result.css">
+    <!-- <script type="module" src="script.js"></script> -->
 </head>
 
 <body>
-    <h1 class="heading">Result Summary</h1>
-    <div class="body">
-        <div class="container">
-            <div id="score">
-                <h1><%= score %>/10</h1>
+    <main class="container">
+        <div class="dashboard">
+            <h1 class="dashboard__header">Your Result</h1>
+            <div class="dashboard__score">
+                <h2 id="score-number" class="score-number" data-target="76"> <%= score %> </h2>
+                <p class="score-text">of 10</p>
             </div>
-            <div class="detail">
-                <ul>
-                    <li>Questions Attempted: <%= Ques_attempt %></li>
-                    <li>Correct Answers: <%= score %></li>
-                    <li>Wrong Answers: <%= 10-score %></li>
-                    <li>Time taken: <%= time %></li>
-                </ul>
+            <div class="dashboard__grade">
+                <h2 class="grade-text"><%= remark %></h2>
+                <h3 class="grade-description">You scored higher than <%= score*10 %>% of the people who have taken these tests.</h3>
             </div>
-
         </div>
-    </div>
+        <div class="summary">
+            <h1 class="summary__header">Summary</h1>
+            <div id="summary__category">
+
+                <div class="categoryicon">
+                    <img src="/img/icon-reaction.svg" alt="Reaction">
+                    <div class="text-block">
+                        <h2 class="category-text">
+                            Questions Attempted
+                        </h2>
+                    </div>
+                    <div class="score">
+                        <h2>
+                            <%= Ques_attempt %> <span>/ 10</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="categoryicon">
+                    <img src="/img/icon-memory.svg" alt="Memory">
+                    <div class="text-block">
+                        <h2 class="category-text">
+                            Correct Answers
+                        </h2>
+                    </div>
+                    <div class="score">
+                        <h2>
+                            <%= score %> <span>/ 10</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="categoryicon">
+                    <img src="/img/wrong.svg" alt="Verbal">
+                    <div class="text-block">
+                        <h2 class="category-text">
+                            Wrong Answers
+                        </h2>
+                    </div>
+                    <div class="score">
+                        <h2>
+                            <%= wrong_ans %> <span>/ 10</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="categoryicon">
+                    <img src="/img/time.svg" alt="Visual">
+                    <div class="text-block">
+                        <h2 class="category-text">
+                            Time
+                        </h2>
+                    </div>
+                    <div class="score">
+                        <h2>
+                            <!-- 9 <span>/ 100</span> -->
+                            <%= time %>
+                        </h2>
+                    </div>
+                </div>
+
+            </div>
+            <button class="continue" type="button" onclick="btn_route()">
+                Continue
+            </button>
+        </div>
+    </main>
+
+
+    <script>
+        function btn_route() {
+            window.location = '/start_test';
+        }
+    </script>
 </body>
 
 </html>

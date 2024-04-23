@@ -164,11 +164,41 @@
     }
 
     .h-custom {
-      height: calc(100% - 62px);
+      height: 120%;
     }
 
     span{
       color: red;
+    }
+
+    .google {
+      width: 90%;
+    }
+    .card{
+      border: none;
+    }
+
+    .card-body {
+      padding: 0px;
+    }
+
+    .card-body a {
+      width: 100%;
+      padding: 15px 10px;
+      border: 2px solid rgb(152, 152, 152);
+      border-radius: 30px;
+    }
+    .btn:hover{
+      background: rgb(207, 207, 207);
+    }
+
+    #googlelogo{
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
+    }
+    .box{
+      margin-top: 50px;
     }
   </style>
 </head>
@@ -202,7 +232,28 @@
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
             alt="Sample image">
         </div>
-        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 box">
+
+          <div class="col-sm-4 google">
+            <div class="card">
+              <div class="card-body">
+                <a class="btn btn-block" href="/auth/google" role="button">
+                  <img id="googlelogo" src="./img/google.svg"></img>
+                  Sign Up with Google
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider d-flex align-items-center my-4">
+            <p class="text-center fw-bold mx-3 mb-0">Or</p>
+          </div>
+
+
+
+
+
+
           <form action="/signup" method="post" onsubmit="return validate()">
 
             <!-- Email input -->
