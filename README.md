@@ -70,16 +70,18 @@ To run the Online Examination Portal locally, follow these steps:
 ## Screenshots
 
 Login Page:<br>
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![/images/Screenshot 2024-04-24 164500.png](https://github.com/321sayantan/online-exam-portal/blob/main/images/Screenshot%202024-04-24%20164500.png?raw=true)
 
 SignUp Page:<br>
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![[App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)](https://github.com/321sayantan/online-exam-portal/blob/main/images/Screenshot%202024-04-24%20164716.png?raw=true)
 
 Dashboard:<br>
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![[App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+](https://github.com/321sayantan/online-exam-portal/blob/main/images/Screenshot%202024-04-24%20165730.png?raw=true)
 
 Password Encryption:<br>
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![[App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)](https://github.com/321sayantan/online-exam-portal/blob/main/images/Screenshot%202024-04-24%20165950.png?raw=true)
+
 ## Tech Stack
 
 **Client:** HTML, CSS, Bootstrap, EJS,
@@ -89,6 +91,8 @@ Password Encryption:<br>
 **DataBase:** MongoDB.
 
 **Authentication:** Google OAuth.
+
+**Password Hashing:** bcrypt.
 
 **Session:** express.session.
 ## Usage
